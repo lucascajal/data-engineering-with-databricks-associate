@@ -235,6 +235,10 @@ ZORDER BY id
 
 -- COMMAND ----------
 
+DESCRIBE DETAIL students
+
+-- COMMAND ----------
+
 -- MAGIC %md <i18n value="5684dfb4-0b33-49f1-a4f8-cb2f8d88bf09"/>
 -- MAGIC 
 -- MAGIC 
@@ -310,6 +314,10 @@ RESTORE TABLE students TO VERSION AS OF 8
 
 -- COMMAND ----------
 
+SELECT * FROM STUDENTS
+
+-- COMMAND ----------
+
 -- MAGIC %md <i18n value="4fbc3b91-8b73-4644-95cb-f9ca2f1ac6a3"/>
 -- MAGIC 
 -- MAGIC 
@@ -332,7 +340,7 @@ RESTORE TABLE students TO VERSION AS OF 8
 
 -- COMMAND ----------
 
--- VACUUM students RETAIN 0 HOURS
+VACUUM students RETAIN 0 HOURS
 
 -- COMMAND ----------
 
