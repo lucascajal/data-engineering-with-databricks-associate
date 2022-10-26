@@ -139,7 +139,7 @@ SELECT *,
     WHEN food = "potatoes" THEN "My favorite vegetable is potatoes"
     WHEN food <> "beef" THEN concat("Do you have any good recipes for ", food ,"?")
     ELSE concat("I don't eat ", food)
-  END
+  END AS response
 FROM foods
 
 -- COMMAND ----------
@@ -173,7 +173,7 @@ END;
 
 -- COMMAND ----------
 
-SELECT foods_i_like(food) FROM foods
+SELECT foods_i_like(food) AS response FROM foods
 
 -- COMMAND ----------
 

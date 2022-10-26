@@ -55,7 +55,7 @@
 -- MAGIC 
 -- MAGIC | field | type | 
 -- MAGIC | --- | --- | 
--- MAGIC | user_id | STRING |
+-- MAGIC | user | STRING |
 -- MAGIC | cart | BIGINT |
 -- MAGIC | pillows | BIGINT |
 -- MAGIC | login | BIGINT |
@@ -85,11 +85,19 @@
 -- COMMAND ----------
 
 -- TODO
-CREATE OR REPLACE VIEW events_pivot
-<FILL_IN>
-("cart", "pillows", "login", "main", "careers", "guest", "faq", "down", "warranty", "finalize", 
+CREATE OR REPLACE VIEW events_pivot AS
+SELECT * FROM (
+  SELECT
+    user_id AS user,
+    event_name
+  FROM events
+) PIVOT (
+  sum(1) FOR event_name IN ("cart", "pillows", "login", "main", "careers", "guest", "faq", "down", "warranty", "finalize", 
 "register", "shipping_info", "checkout", "mattresses", "add_item", "press", "email_coupon", 
 "cc_info", "foam", "reviews", "original", "delivery", "premium")
+);
+
+SELECT * FROM events_pivot
 
 -- COMMAND ----------
 
@@ -157,9 +165,17 @@ CREATE OR REPLACE VIEW events_pivot
 
 -- COMMAND ----------
 
+SELECT * FROM transactions
+
+-- COMMAND ----------
+
 -- TODO
 CREATE OR REPLACE VIEW clickpaths AS
-<FILL_IN>
+SELECT * FROM events_pivot e
+JOIN transactions t
+ON e.user = t.user_id;
+
+SELECT * FROM clickpaths
 
 -- COMMAND ----------
 
@@ -198,9 +214,11 @@ CREATE OR REPLACE VIEW clickpaths AS
 
 -- TODO
 CREATE OR REPLACE TABLE sales_product_flags AS
-<FILL_IN>
-EXISTS <FILL_IN>.item_name LIKE "%Mattress"
-EXISTS <FILL_IN>.item_name LIKE "%Pillow"
+SELECT
+  items,
+  EXISTS(items, x -> x.item_name LIKE "%Mattress") as mattress,
+  EXISTS(items, x -> x.item_name LIKE "%Pillow") as pillow
+ FROM sales
 
 -- COMMAND ----------
 
