@@ -246,14 +246,18 @@ display(results)
 # COMMAND ----------
 
 # TODO
-def preview_values(state=<FILL-IN>, render_results=<FILL-IN>):
-    query = <FILL-IN>
+def preview_values(state=None, render_results=False):
+    query = """SELECT id, value FROM demo_table"""
 
     if state is not None:
-        <FILL-IN>
+        query += f" WHERE state = '{state}'"
 
-    if render_results
-        <FILL-IN>
+    results = spark.sql(query)
+
+    if render_results:
+        display()
+    else:
+        return results
 
 
 # COMMAND ----------
